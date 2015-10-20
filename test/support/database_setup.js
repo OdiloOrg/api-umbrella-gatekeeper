@@ -35,6 +35,7 @@ before(function mongoDropDatabase(done) {
 var redisServer;
 var redisPidFile = path.resolve(__dirname, '../tmp/redis.pid');
 before(function redisStart(done) {
+
   if(fs.existsSync(redisPidFile)) {
     var pid = fs.readFileSync(redisPidFile);
     if(pid) {
@@ -98,8 +99,8 @@ before(function redisStart(done) {
       });
     }, done);
   });
-
-  redisServer.start();
+  //redisServer.start();
+  done();
 });
 
 // Wipe the redis data.
@@ -120,16 +121,17 @@ after(function mongoClose(done) {
 after(function redisClose(done) {
   if(global.redisClient) {
     global.redisClient.quit(function() {
-      if(redisServer.running) {
-        redisServer.on('exit', function() {
-          done();
-        });
-
-        redisServer.stop();
-        fs.unlinkSync(redisPidFile);
-      } else {
-        done();
-      }
+      //if(redisServer.running) {
+      //  redisServer.on('exit', function() {
+      //    done();
+      //  });
+      //
+      //  redisServer.stop();
+      //  fs.unlinkSync(redisPidFile);
+      //} else {
+      //  done();
+      //}
     });
   }
+  done();
 });

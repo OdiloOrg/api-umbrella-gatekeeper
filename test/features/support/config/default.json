@@ -1,0 +1,12 @@
+{
+  "stdout": {
+    "type": "stdout",
+    "level": "debug"
+  },
+  "logstash": {
+    "type": "logstash",
+    "host": "192.168.33.11",
+    "port": "4560",
+    "level": "debug"
+  }
+}

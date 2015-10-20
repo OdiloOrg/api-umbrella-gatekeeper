@@ -9,3 +9,4 @@
 /test/config/runtime.yml*
 /test/log/*
 /test/tmp/*
+/.idea/
