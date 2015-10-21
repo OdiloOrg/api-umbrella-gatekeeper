@@ -9,8 +9,8 @@ var myStepDefinitionsWrapper = function () {
 
     this.Given(/^an audit logger LoggerFactory$/, function (callback) {
 
-        this.factory = this.loggerFactory.getLogger('test', true);
-        if(this.factory == null) {
+        this.logger = this.loggerFactory.getLogger('test', true);
+        if(this.logger == null) {
             callback.fail(new Error("No se ha definido el LoggerFactory correctamente"));
         } else {
            setTimeout(callback, 2000);
@@ -29,13 +29,13 @@ var myStepDefinitionsWrapper = function () {
     this.When(/^audit service is called$/, function (callback) {
         this.message="Auditoria"+ new Date().getTime();
         try{
-            this.factory.info({audit: event},this.message);
+            this.logger.info({audit: event},this.message);
         }catch(err) {
             this.logError = err;
         }finally{
-            callback();
+            callback(this.logError);
         }
-        callback();
+        //callback();
     });
 
     this.Then(/^receive a sucessfull audit event response$/, function (callback) {
@@ -43,13 +43,13 @@ var myStepDefinitionsWrapper = function () {
     });
 
     this.Given(/^audit event service is not available$/, function (callback) {
-        this.factory.streams[1].stream=null;
+        this.logger.streams[1].stream=null;
         callback();
     });
 
     this.Then(/^I check that has been audit$/, function (callback) {
         console.log("Audit Message "+this.message);
-        return elasticSearchHelper.search(this.message).then(function (resp) {
+        return elasticSearchHelper.search(this.config,this.message).then(function (resp) {
             console.log(resp);
             var hits = resp.hits.hits;
             hits.length.should.be.above(0);

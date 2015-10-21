@@ -28,19 +28,18 @@ console.log('inside gatekeper');
 module.exports = {
 
     startConfigLoader: function (done) {
-        this.timeout(5000);
-        var overridesPath = path.resolve(__dirname, '../config/overrides.yml');
-        fs.writeFileSync(overridesPath, yaml.dump(configOverrides || {}));
+        //this.timeout(5000);
+        //var overridesPath = path.resolve(__dirname, '../config/overrides.yml');
+        //fs.writeFileSync(overridesPath, yaml.dump(configOverrides || {}));
 
         apiUmbrellaConfig.loader({
             paths: [
                 path.resolve(__dirname, '../../config/default.yml'),
                 path.resolve(__dirname, '../config/test.yml'),
-            ],
-            overrides: configOverrides,
+            ]
+            //overrides: configOverrides,
         }, function (error, loader) {
-            this.loader = loader;
-            done(error);
+            done(error,loader);
         }.bind(this));
     },
 
@@ -61,10 +60,14 @@ module.exports = {
     },
 
     startGatekeeper: function (done) {
-        startConfigLoader();
-        this.gatekeeper = gatekeeper.start({
-            config: this.loader.runtimeFile,
-        }, done);
+        return this.startConfigLoader(function (err,loader) {
+            if (err != null){
+                done(err);
+            }
+            gatekeeper.start({
+                config: loader.runtimeFile,
+            }, done);
+        });
     },
 
     stopConfigLoader: function (done) {

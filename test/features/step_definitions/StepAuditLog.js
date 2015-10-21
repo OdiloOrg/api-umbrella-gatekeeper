@@ -6,8 +6,8 @@ var myStepDefinitionsWrapper = function () {
     this.World = require("../support/world.js").World; // overwrite default World constructor
 
     this.Given(/^a logger LoggerFactory$/, function (callback) {
-        this.factory = this.loggerFactory.getLogger('test', true);
-        if (this.factory == null) {
+        this.logger = this.loggerFactory.getLogger('test', true);
+        if (this.logger == null) {
             callback.fail(new Error("No se ha definido el LoggerFactory correctamente"));
         } else {
            setTimeout(callback, 2000);
@@ -21,13 +21,13 @@ var myStepDefinitionsWrapper = function () {
     });
 
     this.Given(/^Audit Service is not available$/, function (callback) {
-        this.factory.streams[1].stream=null;
+        this.logger.streams[1].stream=null;
         callback();
     });
 
     this.When(/^called to log it$/, function (callback) {
         try{
-            this.factory.info(this.message);
+            this.logger.info(this.message);
             callback();
         }catch(err) {
             this.logError = err;
@@ -49,7 +49,7 @@ var myStepDefinitionsWrapper = function () {
 
 
     this.Then(/^I check that has been logged$/, function (callback) {
-            return elasticSearchHelper.search(this.message).then(function (resp) {
+            return elasticSearchHelper.search(this.config,this.message).then(function (resp) {
                 console.log(resp);
                 var hits = resp.hits.hits;
                 hits.length.should.be.above(0);

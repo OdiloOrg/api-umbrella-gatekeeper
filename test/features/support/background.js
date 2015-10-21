@@ -4,7 +4,6 @@ require('shelljs/global');
 
 global.should = require('chai').should();
 
-
 var background = function () {
 
     this.Given(/^Odilo Audit Service is available$/, function (callback) {

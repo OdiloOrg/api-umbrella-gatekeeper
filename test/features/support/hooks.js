@@ -1,5 +1,7 @@
 var gatekeeperHelper=require ('../../support/gatekeeper');
 
+global.should = require('chai').should();
+
 var hooks = function () {
 
     this.Before(function (callback) {
@@ -12,14 +14,13 @@ var hooks = function () {
 
     this.registerHandler('BeforeFeatures', function (event, callback) {
         console.log("before features");
-        gatekeeperHelper.startConfigLoader()
         return gatekeeperHelper.startGatekeeper(callback);
     });
 
     this.registerHandler('AfterFeatures', function (event, callback) {
         console.log("after features");
-
-        return gatekeeperHelper.stopGatekeeper(callback);
+        //return gatekeeperHelper.stopGatekeeper(callback);
+        callback();
     });
 
 };

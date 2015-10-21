@@ -1,11 +1,11 @@
 'use strict';
 
-global.should = require('chai').should();
-
 function World(callback) {
-    this.loggerFactory = require('../../../lib/LoggerFactory');
-    this.config = require('config');
-    this.factory = null;
+    this.loggerFactory = require('odilo-audit-client-nodejs');
+    console.log(this.loggerFactory);
+    this.config = require('../../config/audit_config');
+    console.log(this.config);
+    this.logger = null;
     this.message = null;
     this.logError = null;
     this.event = null;

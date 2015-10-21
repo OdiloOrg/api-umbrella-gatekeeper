@@ -1,21 +1,9 @@
 var elasticsearch = require('elasticsearch');
-var config = {
-    "stdout": {
-        "type": "stdout",
-        "level": "debug"
-    },
-    "logstash": {
-        "type": "logstash",
-        "host": "192.168.33.11",
-        "port": "4560",
-        "level": "debug"
-    }
-};
 
 var elasticSearchHelper = new function () {
 
-    var getClient = function () {
-        var elasticSearchHost = config.get("logstash.host") + ":9200";
+    var getClient = function (config) {
+        var elasticSearchHost = config['logstash']['host'] + ":9200";
         if (elasticSearchHost == null) {
             callback.fail("Not found config for logstash host");
         }
@@ -31,9 +19,9 @@ var elasticSearchHelper = new function () {
         while (Date.now() < end) ;
     }
 
-    this.search = function (message) {
+    this.search = function (config,message) {
         timeout(5000);
-        return getClient().search({
+        return getClient(config).search({
             method: "get",
             q: 'message:' + message
         });
