@@ -23,7 +23,7 @@ _.merge(global.shared, {
         }, options);
     },
 });
-console.log('inside gatekeper');
+//console.log('inside gatekeper');
 
 module.exports = {
 

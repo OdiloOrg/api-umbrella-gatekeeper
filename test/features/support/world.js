@@ -2,13 +2,11 @@
 
 function World(callback) {
     this.loggerFactory = require('odilo-audit-client-nodejs');
-    console.log(this.loggerFactory);
-    this.config = require('../../config/audit_config');
-    console.log(this.config);
-    this.logger = null;
-    this.message = null;
-    this.logError = null;
-    this.event = null;
+    this.logger = this.loggerFactory.getLogger('gatekeeper',true),
+    //console.log(this.logger);
+    this.service = null;
+    this.request = null;
+    this.response = null;
     callback();
 }
 module.exports.World = World;

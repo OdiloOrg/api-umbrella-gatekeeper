@@ -1,8 +1,9 @@
 var elasticsearch = require('elasticsearch');
+var config = require('../../../config/default');
 
 var elasticSearchHelper = new function () {
 
-    var getClient = function (config) {
+    var getClient = function () {
         var elasticSearchHost = config['logstash']['host'] + ":9200";
         if (elasticSearchHost == null) {
             callback.fail("Not found config for logstash host");
