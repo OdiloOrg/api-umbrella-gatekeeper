@@ -1,4 +1,4 @@
-Feature: Regular Logging
+Feature: System Logging
 
   As Gatekeeper
   I send all my generated logs to Audit Service
@@ -6,7 +6,7 @@ Feature: Regular Logging
   Background:
     Given Odilo Audit Service is available
 
-  Scenario Outline: Successful Logging
+  Scenario Outline: Successful Request Logging
     Given I want to call <service>
     When I call it
     Then I check that it has been audited
